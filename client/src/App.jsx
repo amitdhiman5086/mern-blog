@@ -1,8 +1,44 @@
 import React from 'react'
+import {createBrowserRouter , RouterProvider} from "react-router-dom"
+import Home from './pages/Home'
+import SignIn from './pages/SignIn'
+import SignUP from './pages/SignUP'
+import Project from './pages/Project'
+import Dashboard from './pages/Dashboard'
+import About from './pages/About'
+
+const router = createBrowserRouter([
+  {
+    path : "/" ,
+    element : <Home/>, 
+  },
+  {
+    path :  "/signIn" ,
+    element : <SignIn/>
+  },
+  {
+    path :  "/signUp" ,
+    element : <SignUP/>
+  },
+  {
+    path :  "/project" ,
+    element : <Project/>
+  },
+  {
+    path :  "/dashboard" ,
+    element : <Dashboard/>
+  },
+  {
+    path :  "/about" ,
+    element : <About/>
+  },
+])
 
 const App = () => {
   return (
-    <div className='text-3xl'>App</div>
+    <RouterProvider router={router}>
+
+    </RouterProvider>
   )
 }
 
