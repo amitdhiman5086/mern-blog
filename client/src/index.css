@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hover-effect {
+    @apply  hover:bg-gray-500 ;
+  }
+.hover-after {
+    @apply  hover:bg-red-500 ;
+  }
+  

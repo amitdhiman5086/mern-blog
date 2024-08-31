@@ -1,13 +1,34 @@
 import React from 'react'
-import {createBrowserRouter , RouterProvider} from "react-router-dom"
+import {createBrowserRouter , Outlet, RouterProvider} from "react-router-dom"
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import SignUP from './pages/SignUP'
 import Project from './pages/Project'
 import Dashboard from './pages/Dashboard'
 import About from './pages/About'
+import Header from './pages/Header'
+import Footer from './pages/Footer'
 
+const Layout = () =>{
+  return (
+    <div className='w-screen flex flex-col h-screen box-border bg-black text-white'>
+<div className='sticky top-0 z-10 '>
+<Header/>
+</div>
+    <div className='mb-auto z-0'>
+    <Outlet/>
+    </div>
+    <div>
+      <Footer/>
+    </div>
+    </div>
+  )
+}
 const router = createBrowserRouter([
+  {
+    element : <Layout/>,
+    children : [
+
   {
     path : "/" ,
     element : <Home/>, 
@@ -32,13 +53,19 @@ const router = createBrowserRouter([
     path :  "/about" ,
     element : <About/>
   },
+    ]
+  }
 ])
+
 
 const App = () => {
   return (
+    <>
+    
     <RouterProvider router={router}>
 
     </RouterProvider>
+    </>
   )
 }
 
