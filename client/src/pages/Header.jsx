@@ -16,11 +16,11 @@ const Header = () => {
 
   const handleToggle = () => {
     setVisible(!isVisible);
-    console.log(isVisible);
+    // console.log(isVisible);
   };
   const handleDarkMode = () => {
     setDark(!isDark);
-    console.log(isDark);
+    // console.log(isDark);
   };
   return (
     <nav>
