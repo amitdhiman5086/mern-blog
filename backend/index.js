@@ -20,6 +20,16 @@ app.use(express.json());
 app.use("/api/user/routes", userRoute);
 app.use("/api/auth/routes", authRouter);
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Error Happend!";
+  res.status(statusCode).json({
+    message: message,
+    success: false,
+    statusCode,
+  });
+});
+
 app.listen(3000, () => {
   console.log("Hii I am Listening At Port 3000!!");
 });
