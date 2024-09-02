@@ -28,7 +28,7 @@ const Header = () => {
         <div>
           <Link
             to={"/"}
-            className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+            className="self-center whitespace-nowrap text-sm md:text-xl font-semibold dark:text-white"
           >
             <span className="px-2 py-1 bg-gradient-to-r from-violet-400 to-pink-300 rounded-lg text-white ">
               Zoo's
@@ -41,15 +41,15 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search.."
-            className="rounded-l-lg  hidden sm:inline"
+            className="rounded-l-lg  hidden md:inline"
           />
-          <div className="bg-gray-300  sm:rounded-r-lg rounded-lg">
+          <div className="bg-gray-300  md:rounded-r-lg rounded-lg">
             <CiSearch className="m-2  size-6" />
           </div>
         </div>
 
         <div>
-          <ul className="  sm:flex gap-4 font-semibold  hidden">
+          <ul className="  md:flex gap-4 font-semibold  hidden">
             <Link to={"/"}>Home</Link>
             <Link to={"/about"}>About</Link>
             <Link to={"/project"}>Project</Link>
@@ -75,11 +75,11 @@ const Header = () => {
         </div>
 
         {!isVisible ? (
-          <h2 className="cursor-pointer  sm:hidden" onClick={handleToggle}>
+          <h2 className="cursor-pointer  md:hidden" onClick={handleToggle}>
             <GiHamburgerMenu />
           </h2>
         ) : (
-          <h2 className="cursor-pointer  sm:hidden" onClick={handleToggle}>
+          <h2 className="cursor-pointer  md:hidden" onClick={handleToggle}>
             <GiCrossMark />
           </h2>
         )}
@@ -87,7 +87,7 @@ const Header = () => {
       <div>
         {isVisible && (
           <div className="  text-center ">
-            <ul className=" sm:hidden flex flex-col  gap-4 font-semibold  ">
+            <ul className=" md:hidden flex flex-col  gap-4 font-semibold  ">
               <Link className="hover-effect " to={"/"}>
                 Home
               </Link>

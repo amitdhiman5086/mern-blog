@@ -1,14 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUP = () => {
   const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const [isLoading, setIsloading] = useState(false);
+
+  // const [errorMessage1, setErrorMessage1] = useState(null);
   const handleFormData = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
   // console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsloading(true);
+    setErrorMessage(null);
+    if (!formData.username || !formData.password || !formData.email) {
+      setErrorMessage("Please Enter Vaild Inputs");
+    }
+
     try {
       // const res = await fetch("/api/auth/routes/signup", {
       //   method: "POST",
@@ -25,46 +36,54 @@ const SignUP = () => {
       // // console.log(data);
       // console.log(data1);
 
-
       const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Content-Type", "application/json");
 
-const raw = JSON.stringify({
-  "username": formData.username,
-  "email":formData.email,
-  "password": formData.password
-});
+      const raw = JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
 
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow"
-};
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
 
-fetch("http://localhost:3000/api/auth/routes/signup", requestOptions)
-  .then((response) => response.json())
-  .then((result) => console.log(result))
-  .then(()=>setFormData({}))
-  .catch((error) => console.error(error));
-
-
-
-
+      fetch("/api/auth/routes/signup", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success === false) {
+            setErrorMessage(result.message);
+          }
+        })
+        .then(() => {
+          setFormData({
+            username: "",
+            email: "",
+            password: "",
+          });
+          setIsloading(false);
+          navigate("/signin");
+        })
+        .catch((error) => console.error(error));
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error.message);
+      setIsloading(false);
     }
   };
 
   // console.log(formData.username)
   return (
     <div className="mt-20">
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row">
+      <div className="flex p-3 max-w-3xl mx-auto flex-col items-center md:flex-row">
         {/* left */}
         <div className="">
           <Link
             to={"/"}
-            className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+            className="self-center whitespace-nowrap text-sm md:text-3xl font-semibold dark:text-white"
           >
             <span className="px-2 py-1 bg-gradient-to-r from-violet-400 to-pink-300 rounded-lg text-white ">
               Zoo's
@@ -82,7 +101,7 @@ fetch("http://localhost:3000/api/auth/routes/signup", requestOptions)
           {/* right */}
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col space-y-3 mt-3 md:mt-0 md:gap-4  "
+            className="flex flex-col space-y-3 mt-3 md:mt-0 md:gap-2 "
           >
             <div className="flex flex-col">
               <label className="font-semibold text-xl" htmlFor="username">
@@ -94,7 +113,7 @@ fetch("http://localhost:3000/api/auth/routes/signup", requestOptions)
                 type="text"
                 placeholder="Username"
                 id="username"
-                // value={formData.}
+                value={formData.username || ""}
                 // value={`${formData.username}`}
               />
             </div>
@@ -107,6 +126,7 @@ fetch("http://localhost:3000/api/auth/routes/signup", requestOptions)
                 type="email"
                 onChange={handleFormData}
                 placeholder="Email"
+                value={formData.email || ""}
                 id="email"
               />
             </div>
@@ -119,11 +139,19 @@ fetch("http://localhost:3000/api/auth/routes/signup", requestOptions)
                 type="password"
                 onChange={handleFormData}
                 placeholder="Password"
+                value={formData.password || ""}
                 id="password"
               />
             </div>
-            <div className="w-full active:scale-90 transition-all text-center rounded-lg  bg-gradient-to-r from-violet-600 to-pink-400">
-              <button className="py-2 ">Sign Up</button>
+
+            <div className="w-full  transition-all text-center rounded-lg  bg-gradient-to-r from-violet-600 to-pink-400">
+              <button
+                className={`w-full py-2 active:scale-90 ${
+                  isLoading ? "cursor-wait" : "cursor-pointer"
+                } `}
+              >
+                {isLoading ? "Loading.." : "SignUP"}
+              </button>
             </div>
           </form>
           <div className="flex gap-3 py-3">
@@ -132,6 +160,11 @@ fetch("http://localhost:3000/api/auth/routes/signup", requestOptions)
               Sign In
             </Link>
           </div>
+          {errorMessage && (
+            <div className=" bg-red-300 w-full rounded-lg py-3">
+              <p className="text-red-600 mx-2">{errorMessage}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
