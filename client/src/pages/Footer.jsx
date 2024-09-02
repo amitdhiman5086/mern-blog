@@ -29,9 +29,9 @@ const Footer = () => {
             <div className=" flex-auto w-32">
               {/* 1 */}
 
-              <h4 className="text-gray-400  font-semibold text-2xl">
+              <Link className="text-gray-400  font-semibold text-2xl">
                 About Us
-              </h4>
+              </Link>
               <ul className="font-light">
                 <li>Resume</li>
                 <li>Live Link</li>
