@@ -57,6 +57,8 @@ const SignUP = () => {
         .then((result) => {
           if (result.success === false) {
             setErrorMessage(result.message);
+          } else {
+            navigate("/");
           }
         })
         .then(() => {
@@ -66,7 +68,6 @@ const SignUP = () => {
             password: "",
           });
           setIsloading(false);
-          navigate("/signin");
         })
         .catch((error) => console.error(error));
     } catch (error) {

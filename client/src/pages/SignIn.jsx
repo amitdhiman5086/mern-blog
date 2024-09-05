@@ -59,9 +59,12 @@ const SignIn = () => {
         .then((response) => response.json())
         .then((result) => {
           if (result.success === false) {
+            
             dispatch(signInFailure(result.message));
           } else {
+            console.log(result)
             dispatch(signInSucess(result));
+            navigate("/");
           }
         })
         .then(() => {
@@ -69,7 +72,6 @@ const SignIn = () => {
             email: "",
             password: "",
           });
-          navigate("/");
         })
         .catch((error) => dispatch(signInFailure(error.message)));
     } catch (error) {
