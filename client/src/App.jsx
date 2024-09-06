@@ -6,8 +6,8 @@ import SignUP from './pages/SignUP'
 import Project from './pages/Project'
 import Dashboard from './pages/Dashboard'
 import About from './pages/About'
-import Header from './pages/Header'
-import Footer from './pages/Footer'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 const Layout = () =>{
   return (

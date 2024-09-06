@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 const SignUP = () => {
   const [formData, setFormData] = useState({});
@@ -145,14 +146,15 @@ const SignUP = () => {
               />
             </div>
 
-            <div className="w-full  transition-all text-center rounded-lg  bg-gradient-to-r from-violet-600 to-pink-400">
+            <div className="w-full space-y-3  transition-all text-center rounded-lg  ">
               <button
-                className={`w-full py-2 active:scale-90 ${
+                className={`w-full bg-gradient-to-r from-violet-600 to-pink-400 py-2 active:scale-90 ${
                   isLoading ? "cursor-wait" : "cursor-pointer"
                 } `}
               >
                 {isLoading ? "Loading.." : "SignUP"}
               </button>
+              <OAuth />
             </div>
           </form>
           <div className="flex gap-3 py-3">
