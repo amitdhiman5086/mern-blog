@@ -1,18 +1,16 @@
-import {
-  GiCrossFlare,
-  GiCrossMark,
-  GiHamburgerMenu,
-  GiMoon,
-  GiSun,
-} from "react-icons/gi";
+import { GiCrossMark, GiHamburgerMenu, GiMoon, GiSun } from "react-icons/gi";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import { Avatar, Dropdown, DropdownHeader, DropdownItem } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isVisible, setVisible] = useState(false);
   const [isDark, setDark] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
 
   const handleToggle = () => {
     setVisible(!isVisible);
@@ -56,12 +54,39 @@ const Header = () => {
           </ul>
         </div>
         <div className="flex gap-3">
-          <Link
-            to={"/signin"}
-            className="px-4 py-2 bg-gradient-to-r from-violet-500 via-blue-400 to-pink-600 text-white font-semibold rounded-xl"
-          >
-            Sign In
-          </Link>
+          {currentUser ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar
+                  alt="User"
+                  img={
+                    "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+                  }
+                  rounded
+                ></Avatar>
+              }
+            >
+              <DropdownHeader>
+                <span className="block text-sm">@{currentUser.username}</span>
+                <span className="block text-sm  font-medium truncate">
+                  {currentUser.email}
+                </span>
+              </DropdownHeader>
+              <Link to={"/dashboard?tab=profile"}>
+                <DropdownItem>Profile</DropdownItem>
+              </Link>
+              <DropdownItem>Sign Out</DropdownItem>
+            </Dropdown>
+          ) : (
+            <Link
+              to={"/signin"}
+              className="px-4 py-2 bg-gradient-to-r from-violet-500 via-blue-400 to-pink-600 text-white font-semibold rounded-xl"
+            >
+              Sign In
+            </Link>
+          )}
           <button className="">
             {isDark ? (
               <GiMoon
