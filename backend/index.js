@@ -21,10 +21,17 @@ mongoose
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow only this origin
-  methods: ['GET', 'POST'], // Specify allowed methods
-  allowedHeaders: ['Content-Type'] // Allow Content-Type header
+  origin: 'http://localhost:5173', // Allow this specific origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+  credentials: true, // Allow credentials (cookies, authorization headers)
 }));
+
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  next();
+});
+
 
 app.use(express.json());
 app.use("/api/user/routes", userRoute);

@@ -146,7 +146,7 @@ const SignUP = () => {
               />
             </div>
 
-            <div className="w-full space-y-3  transition-all text-center rounded-lg  ">
+            <div className="w-full space-y-3   transition-all text-center rounded-lg  ">
               <button
                 className={`w-full bg-gradient-to-r from-violet-600 to-pink-400 py-2 active:scale-90 ${
                   isLoading ? "cursor-wait" : "cursor-pointer"
