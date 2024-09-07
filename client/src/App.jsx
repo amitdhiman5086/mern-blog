@@ -11,7 +11,7 @@ import Footer from './components/Footer'
 
 const Layout = () =>{
   return (
-    <div className='w-screen flex flex-col h-screen box-border bg-black text-white'>
+    <div className='w-screen flex flex-col h-screen box-border '>
 <div className='sticky top-0 z-10 '>
 <Header/>
 </div>

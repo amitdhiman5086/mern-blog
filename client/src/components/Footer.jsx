@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <div className="w-full -mt-4 rounded-lg bg-blue-900 ">
       <div className="w-full pt-5 ">
-        <div className=" w-full flex flex-col bg-black rounded-lg gap-3  px-10 py-3   ">
+        <div className=" w-full flex flex-col  rounded-lg gap-3  px-10 py-3   ">
           {/* left */}
           <div className="">
             <Link

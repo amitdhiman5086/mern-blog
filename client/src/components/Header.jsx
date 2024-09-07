@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Avatar, Dropdown, DropdownHeader, DropdownItem } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/themeSlice.js";
 
 const Header = () => {
   const [isVisible, setVisible] = useState(false);
   const [isDark, setDark] = useState(false);
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   console.log(currentUser);
 
@@ -18,6 +20,8 @@ const Header = () => {
   };
   const handleDarkMode = () => {
     setDark(!isDark);
+    dispatch(toggleTheme());
+
     // console.log(isDark);
   };
   return (
