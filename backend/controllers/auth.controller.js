@@ -14,10 +14,10 @@ export const signUp = async (req, res, next) => {
     password === "" ||
     email === ""
   ) {
-    next(errorHandler(400, "Please Enter Vaild Inputs"));
+    return next(errorHandler(400, "Please Enter Vaild Inputs"));
   }
 
-  const hashPassword = await bcryptjs.hashSync(password, 10);
+  const hashPassword = await bcryptjs.hash(password, 10);
   //  console.log(hashPassword)
   const newUser = new User({
     username: username,
@@ -37,7 +37,7 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
   console.log(email);
   if (!email || !password || email === "" || password === "") {
-    next(errorHandler(400, "Please Enter Valid Inputs"));
+    return next(errorHandler(400, "Please Enter Valid Inputs"));
   }
   try {
     const validUser = await User.findOne({ email });

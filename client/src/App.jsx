@@ -8,17 +8,18 @@ import Dashboard from './pages/Dashboard'
 import About from './pages/About'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const Layout = () =>{
   return (
-    <div className='w-screen flex flex-col h-screen box-border '>
+    <div className='w-screen overflow-x-hidden flex flex-col h-screen box-border '>
 <div className='sticky top-0 z-10 '>
 <Header/>
 </div>
-    <div className='mb-auto z-0'>
+    <div className='mb-auto h-full z-0'>
     <Outlet/>
     </div>
-    <div>
+    <div className='z-10'>
       <Footer/>
     </div>
     </div>
@@ -46,13 +47,20 @@ const router = createBrowserRouter([
     element : <Project/>
   },
   {
-    path :  "/dashboard" ,
-    element : <Dashboard/>
+    element : <ProtectedRoute/>,
+    children :[
+      {
+        path :  "/dashboard" ,
+        element : <Dashboard/>
+      },
+      {
+        path :  "/about" ,
+        element : <About/>
+      },
+    ]
+
   },
-  {
-    path :  "/about" ,
-    element : <About/>
-  },
+  
     ]
   }
 ])
