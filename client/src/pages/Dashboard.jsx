@@ -13,7 +13,7 @@ const Dashboard = () => {
     setTab(result);
   }, [result])
   return (
-    <div  className="h-[200%]  flex flex-col md:flex-row">
+    <div  className="h-full  flex flex-col md:flex-row">
       {/* Side Bar  */}
      <div className="">
 
@@ -22,7 +22,7 @@ const Dashboard = () => {
      </div>
       {/* Profile Section  */}
       {tab=='profile' && (
-        <div>
+        <div className="w-full ">
           <ProfileSection />
         </div>
       )}
