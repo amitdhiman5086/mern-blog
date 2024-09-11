@@ -1,9 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
 import userRoute from "./routes/user.route.js";
 import authRouter from "./routes/auth.router.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -16,21 +17,19 @@ mongoose
     console.log(err);
   });
 
-
-
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173', // Allow this specific origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
-  credentials: true, // Allow credentials (cookies, authorization headers)
-}));
-
-
-
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow this specific origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+    credentials: true, // Allow credentials (cookies, authorization headers)
+  })
+);
 
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/user/routes", userRoute);
 app.use("/api/auth/routes", authRouter);
 
