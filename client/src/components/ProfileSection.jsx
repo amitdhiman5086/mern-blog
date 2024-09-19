@@ -17,6 +17,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOutSuccess,
 } from "../redux/userSlice.js";
 import { useDispatch } from "react-redux";
 import { FaExclamationCircle } from "react-icons/fa";
@@ -153,6 +154,22 @@ const ProfileSection = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/routes/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className=" mx-auto p-3 w-[40%]">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -231,7 +248,9 @@ const ProfileSection = () => {
         <span onClick={() => setModel(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {userProfileUpdated && (
         <Alert color="success" className="mt-5 ">

@@ -2,15 +2,17 @@ import { GiCrossMark, GiHamburgerMenu, GiMoon, GiSun } from "react-icons/gi";
 
 import { useState } from "react";
 import { Avatar, Dropdown, DropdownHeader, DropdownItem } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/themeSlice.js";
+import { signOutSuccess } from "../redux/userSlice.js";
 
 const Header = () => {
   const [isVisible, setVisible] = useState(false);
   const [isDark, setDark] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   // console.log(currentUser);
 
@@ -23,6 +25,23 @@ const Header = () => {
     dispatch(toggleTheme());
 
     // console.log(isDark);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/routes/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <nav>
@@ -81,7 +100,7 @@ const Header = () => {
               <Link to={"/dashboard?tab=profile"}>
                 <DropdownItem>Profile</DropdownItem>
               </Link>
-              <DropdownItem>Sign Out</DropdownItem>
+              <DropdownItem onClick={handleSignOut}>Sign Out</DropdownItem>
             </Dropdown>
           ) : (
             <Link
