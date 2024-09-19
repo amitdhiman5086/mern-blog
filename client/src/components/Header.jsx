@@ -84,7 +84,14 @@ const Header = () => {
               label={
                 <Avatar
                   alt="User"
-                  img={currentUser.profilePicture}
+                  // img={currentUser.profilePicture}
+                  img={() => (
+                    <img
+                      referrerPolicy="no-referrer"
+                      src={currentUser.profilePicture}
+                      className="object-cover w-10 h-10 rounded-full"
+                    />
+                  )}
                   rounded
                 ></Avatar>
               }

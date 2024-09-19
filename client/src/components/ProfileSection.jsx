@@ -21,9 +21,10 @@ import {
 } from "../redux/userSlice.js";
 import { useDispatch } from "react-redux";
 import { FaExclamationCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ProfileSection = () => {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imgaeFile, setImageFile] = useState(null);
   const [imageFileProgress, setImageFileProgress] = useState(null);
   const [imageFileProgressError, setImageFileProgressError] = useState(null);
@@ -239,9 +240,25 @@ const ProfileSection = () => {
             id="password"
             placeholder="Password"
           />
-          <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-            Update
+          <Button
+            type="submit"
+            gradientDuoTone="purpleToBlue"
+            outline
+            disabled={imageFileUploading || loading}
+          >
+            {loading ? "Loading.." : "Update"}
           </Button>
+          {currentUser.isAdmin && (
+            <Link to={"/create-post"}>
+              <Button
+                type="button"
+                gradientDuoTone={"purpleToPink"}
+                className="w-full"
+              >
+                Create a post
+              </Button>
+            </Link>
+          )}
         </div>
       </form>
       <div className="text-red-500 flex justify-between mt-5">
