@@ -10,6 +10,12 @@ import {
 } from "firebase/storage";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import {
+  updateStart,
+  updateFailure,
+  updateSuccess,
+} from "../redux/userSlice.js";
+import { useDispatch } from "react-redux";
 
 const ProfileSection = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -17,7 +23,12 @@ const ProfileSection = () => {
   const [imageFileProgress, setImageFileProgress] = useState(null);
   const [imageFileProgressError, setImageFileProgressError] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  console.log(imageFileProgress, imageFileProgressError);
+  const [userProfileUpdated, setUserProfileUpdated] = useState(null);
+  const [userProfileUpdatedError, setUserProfileUpdatedError] = useState(null);
+  const [imageFileUploading, setImageFileUploading] = useState(false);
+  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+  // console.log(imageFileProgress, imageFileProgressError);
   const filePicker = useRef();
   const handleImageFile = (e) => {
     const file = e.target.files[0];
@@ -33,6 +44,7 @@ const ProfileSection = () => {
     }
   }, [imgaeFile]);
   const uploadImage = async () => {
+    setImageFileUploading(true);
     setImageFileProgressError(null);
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imgaeFile.name;
@@ -46,26 +58,84 @@ const ProfileSection = () => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileProgress(progress.toFixed(0));
       },
-      (error) => {
+      () => {
         setImageFileProgressError(
           "Could not upload image (File must be less than 2MB)"
         );
         setImageFileProgress(null);
         setImageUrl(null);
         setImageFile(null);
+        setImageFileUploading(false);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageUrl(downloadURL);
+          setFormData({ ...formData, profilePicture: downloadURL });
+          setImageFileUploading(false);
         });
       }
     );
   };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // setUserProfileUpdatedError(null)
+    // setUserProfileUpdated(null)
+    if (Object.keys(formData).length === 0) {
+      setUserProfileUpdatedError("No Changes Made");
+      setTimeout(() => {
+        setUserProfileUpdatedError(null);
+      }, 5000);
+      return;
+    }
+    if (imageFileUploading) {
+      setUserProfileUpdatedError("Ruk Ja Bhai Image Upload Ho Rahi Hai ");
+      setTimeout(() => {
+        setUserProfileUpdatedError(null);
+      }, 5000);
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(`/api/user/routes/update/${currentUser._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      
+      if (!res.ok) {
+        dispatch(updateFailure(data.message));
+        setUserProfileUpdatedError(data.message);
+        setTimeout(() => {
+          setUserProfileUpdatedError(null);
+        }, 5000);
+      } else {
+        dispatch(updateSuccess(data));
+        setUserProfileUpdated("User Profile Updated Successfully !");
+        setTimeout(() => {
+          setUserProfileUpdated(null);
+        }, 5000);
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+      setUserProfileUpdatedError(error.message);
+      setTimeout(() => {
+        setUserProfileUpdatedError(null);
+      }, 5000);
+    }
+  };
 
+  console.log(formData);
   return (
     <div className=" mx-auto p-3 w-[40%]">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
-      <form className="flex flex-col">
+      <form onSubmit={handleSubmit} className="flex flex-col">
         <input
           hidden
           type="file"
@@ -116,14 +186,21 @@ const ProfileSection = () => {
             id="username"
             placeholder="Username"
             defaultValue={currentUser.username}
+            onChange={handleChange}
           />
           <TextInput
             type="email"
             id="email"
             placeholder="Email"
             defaultValue={currentUser.email}
+            onChange={handleChange}
           />
-          <TextInput type="password" id="password" placeholder="Password" />
+          <TextInput
+            type="password"
+            onChange={handleChange}
+            id="password"
+            placeholder="Password"
+          />
           <Button type="submit" gradientDuoTone="purpleToBlue" outline>
             Update
           </Button>
@@ -133,6 +210,16 @@ const ProfileSection = () => {
         <span className="cursor-pointer">Delete Account</span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
+      {userProfileUpdated && (
+        <Alert color="success" className="mt-5 ">
+          {userProfileUpdated}
+        </Alert>
+      )}
+      {userProfileUpdatedError && (
+        <Alert color="failure" className="mt-5 ">
+          {userProfileUpdatedError}
+        </Alert>
+      )}
     </div>
   );
 };

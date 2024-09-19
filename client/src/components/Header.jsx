@@ -12,7 +12,7 @@ const Header = () => {
   const [isDark, setDark] = useState(false);
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const handleToggle = () => {
     setVisible(!isVisible);
