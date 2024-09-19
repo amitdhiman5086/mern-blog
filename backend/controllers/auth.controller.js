@@ -26,10 +26,10 @@ export const signUp = async (req, res, next) => {
   });
   // console.log(newUser)
   try {
-      const data = await newUser.save();
+    const data = await newUser.save();
     // res.json({ message: "New User Created" });
-    console.log(data);
-    
+    // console.log(data);
+
     const token = jwt.sign(
       {
         id: newUser._id,
@@ -46,7 +46,7 @@ export const signUp = async (req, res, next) => {
       .json(rest);
   } catch (error) {
     console.log(error);
-    
+
     next(error);
   }
 };
@@ -70,6 +70,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign(
       {
         id: validUser._id,
+        isAdmin: validUser.isAdmin,
       },
       process.env.JWT,
       { expiresIn: "30d" }
@@ -90,11 +91,11 @@ export const signin = async (req, res, next) => {
 //   const { email, name, goolePhotoUrl } = req.body;
 //   try {
 //     const user = await User.findOne({ email });
-    
+
 //     if (user) {
 //       const token = jwt.sign({ id: user._id }, process.env.JWT);
 //       const { password, ...rest } = user._doc;
-      
+
 //       res
 //       .status(200)
 //       .cookie("access_token", token, {
@@ -130,14 +131,20 @@ export const google = async (req, res, next) => {
   const { email, name, googlePhotoUrl } = req.body; // typo fix: 'goolePhotoUrl' to 'googlePhotoUrl'
   try {
     const user = await User.findOne({ email });
-    
+
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT);
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT
+      );
       const { password, ...rest } = user._doc;
-      
-      res.status(200).cookie("access_token", token, {
-        httpOnly: true,
-      }).json(rest);
+
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -146,21 +153,25 @@ export const google = async (req, res, next) => {
       const hashPassword = await bcryptjs.hash(generatedPassword, 10);
 
       const newUser = new User({
-        username: name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
         email,
         password: hashPassword,
         profilePicture: googlePhotoUrl, // typo fix
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT);
+      const token = jwt.sign({ id: newUser._id  , isAdmin : newUser.isAdmin}, process.env.JWT);
       const { password, ...rest } = newUser._doc;
-      res.status(200).cookie("access_token", token, {
-        httpOnly: true,
-      }).json(rest);
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
     }
   } catch (error) {
     console.log(error); // Log the error for more details
     next(errorHandler(500, "Google authentication failed"));
   }
 };
-
