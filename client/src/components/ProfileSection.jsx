@@ -1,4 +1,4 @@
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { app } from "../firebase/firebase";
@@ -14,15 +14,20 @@ import {
   updateStart,
   updateFailure,
   updateSuccess,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
 } from "../redux/userSlice.js";
 import { useDispatch } from "react-redux";
+import { FaExclamationCircle } from "react-icons/fa";
 
 const ProfileSection = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const [imgaeFile, setImageFile] = useState(null);
   const [imageFileProgress, setImageFileProgress] = useState(null);
   const [imageFileProgressError, setImageFileProgressError] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [showModel, setModel] = useState(false);
   const [userProfileUpdated, setUserProfileUpdated] = useState(null);
   const [userProfileUpdatedError, setUserProfileUpdatedError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
@@ -108,7 +113,7 @@ const ProfileSection = () => {
       });
       const data = await res.json();
       console.log(data);
-      
+
       if (!res.ok) {
         dispatch(updateFailure(data.message));
         setUserProfileUpdatedError(data.message);
@@ -131,7 +136,23 @@ const ProfileSection = () => {
     }
   };
 
-  console.log(formData);
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/routes/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
+        dispatch(deleteUserSuccess());
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
   return (
     <div className=" mx-auto p-3 w-[40%]">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -207,7 +228,9 @@ const ProfileSection = () => {
         </div>
       </form>
       <div className="text-red-500 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
+        <span onClick={() => setModel(true)} className="cursor-pointer">
+          Delete Account
+        </span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
       {userProfileUpdated && (
@@ -220,6 +243,28 @@ const ProfileSection = () => {
           {userProfileUpdatedError}
         </Alert>
       )}
+      {error && (
+        <Alert color="failure" className="mt-5 ">
+          {error}
+        </Alert>
+      )}
+      <Modal popup size="md" show={showModel} onClose={() => setModel(false)}>
+        <Modal.Header></Modal.Header>
+        <Modal.Body>
+          <FaExclamationCircle className="size-16 text-gray-600 mx-auto dark:text-gray-200" />
+          <h3 className="text-center my-4 font-bold text-xl dark:text-gray-200 text-gray-600">
+            Are You Sure want to delete the account
+          </h3>
+          <div className="flex justify-around ">
+            <Button onClick={handleDeleteUser} color={"failure"}>
+              Yes, I am Sure
+            </Button>
+            <Button onClick={() => setModel(false)} color={"success"} outline>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
