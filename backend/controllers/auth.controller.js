@@ -26,16 +26,18 @@ export const signUp = async (req, res, next) => {
   });
   // console.log(newUser)
   try {
-    await newUser.save();
+      const data = await newUser.save();
     // res.json({ message: "New User Created" });
+    console.log(data);
+    
     const token = jwt.sign(
       {
-        id: validUser._id,
+        id: newUser._id,
       },
       process.env.JWT,
       { expiresIn: "30d" }
     );
-    const { password: pass, ...rest } = validUser._doc;
+    const { password: pass, ...rest } = newUser._doc;
     res
       .status(200)
       .cookie("access_token", token, {
@@ -43,6 +45,8 @@ export const signUp = async (req, res, next) => {
       })
       .json(rest);
   } catch (error) {
+    console.log(error);
+    
     next(error);
   }
 };
