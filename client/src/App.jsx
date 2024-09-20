@@ -15,19 +15,21 @@ import PageNotFound from "./components/PageNotFound";
 
 const Layout = () => {
   return (
-    <div className="w-screen overflow-x-hidden flex flex-col h-screen box-border  ">
-      <div className="sticky top-0 z-10 ">
+    <div className="flex flex-col h-screen w-screen box-border overflow-x-hidden">
+      <header className="sticky bg-white shadow-lg top-0 z-10">
         <Header />
-      </div>
-      <div className="mb-10  h-full z-0">
+      </header>
+      <main className="flex-grow my-6 z-0">
+        {/* Use flex-grow to ensure the Outlet takes the available space */}
         <Outlet />
-      </div>
-      <div className="z-10">
+      </main>
+      <footer className="z-10">
         <Footer />
-      </div>
+      </footer>
     </div>
   );
 };
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -79,11 +81,7 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return (
-    <>
-      <RouterProvider router={router}></RouterProvider>
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
