@@ -3,6 +3,7 @@ import {  useSearchParams } from "react-router-dom";
 import ProfileSection from "../components/ProfileSection";
 
 import DashSideBar from "../components/DashSideBar";
+import DashPosts from "../components/DashPosts";
 
 const Dashboard = () => {
   const [data] = useSearchParams();
@@ -26,6 +27,13 @@ const Dashboard = () => {
           <ProfileSection />
         </div>
       )}
+      {tab=='posts' && (
+        <div className="w-full">
+          <DashPosts/>
+        </div>
+      )
+
+      }
     </div>
   );
 };
