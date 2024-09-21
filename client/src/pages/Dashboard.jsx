@@ -14,7 +14,7 @@ const Dashboard = () => {
     setTab(result);
   }, [result])
   return (
-    <div  className="h-full  flex flex-col md:flex-row">
+    <div  className="h-full w-full flex flex-col md:flex-row">
       {/* Side Bar  */}
      <div className="">
 
