@@ -41,7 +41,7 @@ const DashSideBar = () => {
               active={tab === "profile"}
               icon={FaUser}
               label={currentUser.isAdmin ? "Admin" : "User"}
-              labelColor={"dark"}
+              labelColor={currentUser.isAdmin ? "green" : "dark"}
               as="div"
             >
               Profile

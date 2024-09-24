@@ -45,7 +45,7 @@ const SignIn = () => {
       myHeaders.append("Content-Type", "application/json");
 
       const raw = JSON.stringify({
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         password: formData.password,
       });
 
@@ -60,10 +60,9 @@ const SignIn = () => {
         .then((response) => response.json())
         .then((result) => {
           if (result.success === false) {
-            
             dispatch(signInFailure(result.message));
           } else {
-            console.log(result)
+            console.log(result);
             dispatch(signInSucess(result));
             navigate("/");
           }
@@ -143,7 +142,7 @@ const SignIn = () => {
               >
                 {isLoading ? "Loading.." : "SignIn"}
               </button>
-              <OAuth/>
+              <OAuth />
             </div>
           </form>
           <div className="flex gap-3 py-3">
