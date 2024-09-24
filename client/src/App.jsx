@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -12,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import OnlyAdminProtectedRoute from "./components/OnlyAdminProtectedRoute";
 import CreatePostPage from "./pages/CreatePostPage";
 import PageNotFound from "./components/PageNotFound";
+import UpdatePost from "./pages/UpdatePost";
 
 const Layout = () => {
   return (
@@ -73,6 +73,10 @@ const router = createBrowserRouter([
           {
             path: "/create-post",
             element: <CreatePostPage />,
+          },
+          {
+            path: "/update-post/:postId",
+            element: <UpdatePost />,
           },
         ],
       },
