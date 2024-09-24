@@ -1,39 +1,41 @@
 import { useEffect, useState } from "react";
-import {  useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import ProfileSection from "../components/ProfileSection";
 
 import DashSideBar from "../components/DashSideBar";
 import DashPosts from "../components/DashPosts";
+import DashUser from "../components/DashUsers";
 
 const Dashboard = () => {
   const [data] = useSearchParams();
   const [tab, setTab] = useState("");
-  const result = data.get("tab")
+  const result = data.get("tab");
 
   useEffect(() => {
     setTab(result);
-  }, [result])
+  }, [result]);
   return (
-    <div  className="h-full w-full flex flex-col md:flex-row">
+    <div className="h-full w-full flex flex-col md:flex-row">
       {/* Side Bar  */}
-     <div className="">
-
-     <DashSideBar />
-     
-     </div>
+      <div className="">
+        <DashSideBar />
+      </div>
       {/* Profile Section  */}
-      {tab=='profile' && (
+      {tab == "profile" && (
         <div className="w-full ">
           <ProfileSection />
         </div>
       )}
-      {tab=='posts' && (
+      {tab == "posts" && (
         <div className="w-full">
-          <DashPosts/>
+          <DashPosts />
         </div>
-      )
-
-      }
+      )}
+      {tab == "user" && (
+        <div className="w-full">
+          <DashUser />
+        </div>
+      )}
     </div>
   );
 };

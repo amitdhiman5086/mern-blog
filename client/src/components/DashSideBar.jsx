@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { FaPagelines, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { FaPagelines, FaSignOutAlt, FaUser, FaUsers } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
 import { signOutSuccess } from "../redux/userSlice.js";
 import { useDispatch } from "react-redux";
@@ -55,6 +55,13 @@ const DashSideBar = () => {
                 as="div"
               >
                 Posts
+              </Sidebar.Item>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to={"/dashboard?tab=user"}>
+              <Sidebar.Item active={tab === "user"} icon={FaUsers} as="div">
+                Users
               </Sidebar.Item>
             </Link>
           )}
