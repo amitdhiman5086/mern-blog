@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Modal, Spinner, Table, TableCell } from "flowbite-react";
-import { FaAlignRight, FaCheck, FaExclamationCircle, FaTimes } from "react-icons/fa";
+import {
+  FaAlignRight,
+  FaCheck,
+  FaExclamationCircle,
+  FaTimes,
+} from "react-icons/fa";
 const DashUser = () => {
   const { currentUser } = useSelector((state) => state.user);
 
@@ -42,13 +47,14 @@ const DashUser = () => {
         `/api/user/routes/getusers?startIndex=${startIndex}`
       );
       const data = await res.json();
-      if (res.ok && data.posts) {
+      console.log(data)
+      if (res.ok && data.users) {
         setUser((prev) => [...prev, ...data.users]);
         if (data.posts.length < 9) {
           setShowMore(false);
         }
-    }
-    setLoading(false);
+      }
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -57,7 +63,22 @@ const DashUser = () => {
 
   //   console.log(user);
 
-  const handleDeleteUser = async () => {};
+  const handleDeleteUser = async () => {
+    try {
+      const res = await fetch(`/api/user/routes/delete/${deleteUserId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser((prev) => prev.filter((user) => user._id !== deleteUserId));
+        setModel(false)
+      } else {
+        console.log(data.message)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  };
   return (
     <div className="table-auto max-w-full overflow-x-scroll scrollbar scrollbar-track-slate-300 scrollbar-thumb-slate-100    dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
       {currentUser.isAdmin && user.length > 0 ? (
@@ -90,7 +111,13 @@ const DashUser = () => {
                     {user.username.toUpperCase()}
                   </TableCell>
                   <TableCell>{user.email.toUpperCase()}</TableCell>
-                  <TableCell>{user.isAdmin ? <FaCheck className="text-green-500"/>:<FaTimes className="text-red-500"/>}</TableCell>
+                  <TableCell>
+                    {user.isAdmin ? (
+                      <FaCheck className="text-green-500" />
+                    ) : (
+                      <FaTimes className="text-red-500" />
+                    )}
+                  </TableCell>
                   <TableCell className="text-red-500 hover:underline cursor-pointer">
                     <span
                       onClick={() => {

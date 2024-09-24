@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { useDispatch } from "react-redux";
+import { signInFailure, signInStart, signInSucess } from "../redux/userSlice";
 
 const SignUP = () => {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isLoading, setIsloading] = useState(false);
 
   // const [errorMessage1, setErrorMessage1] = useState(null);
@@ -57,8 +61,10 @@ const SignUP = () => {
         .then((response) => response.json())
         .then((result) => {
           if (result.success === false) {
-            setErrorMessage(result.message);
+            dispatch(signInFailure(result.message));
           } else {
+            console.log(result);
+            dispatch(signInSucess(result));
             navigate("/");
           }
         })
@@ -70,10 +76,9 @@ const SignUP = () => {
           });
           setIsloading(false);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => dispatch(signInFailure(error.message)));
     } catch (error) {
-      setErrorMessage(error.message);
-      setIsloading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
