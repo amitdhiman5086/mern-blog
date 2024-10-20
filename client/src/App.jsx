@@ -12,11 +12,14 @@ import OnlyAdminProtectedRoute from "./components/OnlyAdminProtectedRoute";
 import CreatePostPage from "./pages/CreatePostPage";
 import PageNotFound from "./components/PageNotFound";
 import UpdatePost from "./pages/UpdatePost";
+import PostPage from "./pages/PostPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Layout = () => {
   return (
     <div className="flex flex-col h-screen w-screen box-border overflow-x-hidden">
       <header className="sticky bg-white shadow-lg top-0 z-10">
+      <ScrollToTop />
         <Header />
       </header>
       <main className="flex-grow my-6 z-0">
@@ -57,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/post/:postSlug",
+        element: <PostPage />,
       },
       {
         element: <ProtectedRoute />,

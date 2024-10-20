@@ -11,7 +11,7 @@ const DashPosts = () => {
   const [isLoading, setLoading] = useState(false);
   const [showModel, setModel] = useState(false);
   const [deletePostId, setDeletePostId] = useState(null);
-  console.log(userPost);
+  // console.log(userPost);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -23,7 +23,7 @@ const DashPosts = () => {
         if (res.ok) {
           setUserPost(data.posts);
           if (data.posts.length < 9) {
-            showMore(false);
+            setShowMore(false);
           }
         }
       } catch (error) {
@@ -78,7 +78,7 @@ const DashPosts = () => {
       console.log(error.message);
     }
   };
-  console.log(userPost);
+  // console.log(userPost);
   return (
     <div className="table-auto max-w-full overflow-x-scroll md:mx-auto px-3 scrollbar scrollbar-track-slate-300 scrollbar-thumb-slate-200   dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
       {currentUser.isAdmin && userPost.length > 0 ? (
