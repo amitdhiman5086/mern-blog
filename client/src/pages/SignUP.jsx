@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSucess } from "../redux/userSlice";
 
 const SignUP = () => {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isLoading, setIsloading] = useState(false);
+  const { loading: isLoading, error: errorMessage } = useSelector(
+    (state) => state.user
+  );
 
+  
   // const [errorMessage1, setErrorMessage1] = useState(null);
   const handleFormData = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -19,10 +22,9 @@ const SignUP = () => {
   // console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsloading(true);
-    setErrorMessage(null);
+    dispatch(signInStart);
     if (!formData.username || !formData.password || !formData.email) {
-      setErrorMessage("Please Enter Vaild Inputs");
+     return dispatch(signInFailure("Kuchh To Enter Kar Bhai 😐"));
     }
 
     try {
@@ -46,7 +48,7 @@ const SignUP = () => {
 
       const raw = JSON.stringify({
         username: formData.username,
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         password: formData.password,
       });
 
@@ -74,7 +76,7 @@ const SignUP = () => {
             email: "",
             password: "",
           });
-          setIsloading(false);
+          // setIsloading(false);
         })
         .catch((error) => dispatch(signInFailure(error.message)));
     } catch (error) {
@@ -104,11 +106,11 @@ const SignUP = () => {
             magni?
           </p>
         </div>
-        <div>
+        <div className="w-full ">
           {/* right */}
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col space-y-3 mt-3 md:mt-0 md:gap-2 "
+            className="flex flex-col space-y-3 mt-3  md:mt-0 md:gap-2 "
           >
             <div className="flex flex-col">
               <label className="font-semibold text-xl" htmlFor="username">
@@ -169,7 +171,7 @@ const SignUP = () => {
             </Link>
           </div>
           {errorMessage && (
-            <div className=" bg-red-300 w-full rounded-lg py-3">
+            <div className=" bg-red-100 w-full rounded-lg py-3">
               <p className="text-red-600 mx-2">{errorMessage}</p>
             </div>
           )}

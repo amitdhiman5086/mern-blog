@@ -1,43 +1,39 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import ProfileSection from "../components/ProfileSection";
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import DashSideBar from "../components/DashSideBar";
-import DashPosts from "../components/DashPosts";
-import DashUser from "../components/DashUsers";
+import DashboardComp from '../components/DashBoardComp';
+import DashSidebar from '../components/DashSideBar';
+import ProfileSection from '../components/ProfileSection';
+import DashPosts from '../components/DashPosts';
+import DashUser from '../components/DashUsers';
+import DashComments from '../components/DashComment';
 
-const Dashboard = () => {
-  const [data] = useSearchParams();
-  const [tab, setTab] = useState("");
-  const result = data.get("tab");
-
+export default function Dashboard() {
+  const location = useLocation();
+  const [tab, setTab] = useState('');
   useEffect(() => {
-    setTab(result);
-  }, [result]);
+    const urlParams = new URLSearchParams(location.search);
+    const tabFromUrl = urlParams.get('tab');
+    if (tabFromUrl) {
+      setTab(tabFromUrl);
+    }
+  }, [location.search]);
   return (
-    <div className="h-full w-full flex flex-col md:flex-row">
-      {/* Side Bar  */}
-      <div className="">
-        <DashSideBar />
+    <div className='min-h-screen flex flex-col md:flex-row'>
+      <div className='md:w-56'>
+        {/* Sidebar */}
+        <DashSidebar />
       </div>
-      {/* Profile Section  */}
-      {tab == "profile" && (
-        <div className="w-full ">
-          <ProfileSection />
-        </div>
-      )}
-      {tab == "posts" && (
-        <div className="w-full">
-          <DashPosts />
-        </div>
-      )}
-      {tab == "user" && (
-        <div className="w-full">
-          <DashUser />
-        </div>
-      )}
+      {/* profile... */}
+      {tab === 'profile' && <ProfileSection />}
+      {/* posts... */}
+      {tab === 'posts' && <DashPosts/>}
+      {/* users */}
+      {tab === 'user' && <DashUser />}
+      {/* comments  */}
+      {tab === 'comment' && <DashComments />}
+      {/* dashboard comp */}
+      {tab === 'dash' && <DashboardComp />}
     </div>
   );
-};
-
-export default Dashboard;
+}

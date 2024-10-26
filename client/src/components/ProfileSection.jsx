@@ -79,6 +79,7 @@ const ProfileSection = () => {
           setImageUrl(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
           setImageFileUploading(false);
+          setImageFileProgress(null)
         });
       }
     );
@@ -172,7 +173,7 @@ const ProfileSection = () => {
   };
 
   return (
-    <div className=" mx-auto p-3 w-[40%]">
+    <div className=" mx-auto p-3 w-full md:w-[40%]">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <input

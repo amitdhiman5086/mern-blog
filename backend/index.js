@@ -7,7 +7,7 @@ import authRouter from "./routes/auth.router.js";
 import postRouter from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.router.js";
 import cookieParser from "cookie-parser";
-
+import path from "path";
 dotenv.config();
 
 mongoose
@@ -20,6 +20,8 @@ mongoose
   });
 
 const app = express();
+
+const __dirname = path.resolve();
 
 app.use(
   cors({
@@ -36,6 +38,12 @@ app.use("/api/user/routes", userRoute);
 app.use("/api/auth/routes", authRouter);
 app.use("/api/post/routes", postRouter);
 app.use("/api/comment/routes", commentRoutes);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

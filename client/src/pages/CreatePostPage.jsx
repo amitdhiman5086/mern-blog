@@ -108,11 +108,12 @@ const CreatePostPage = () => {
               setFormData({ ...formData, category: e.target.value });
             }}
           >
-            <option value="uncategorized">Select a category</option>
-            <option value="technical">Technical</option>
-            <option value="poltical">Poltical</option>
-            <option value="news">News</option>
-            <option value="others">Others</option>
+            <option value="uncategorized">Technical</option>
+            <option value="web-dev">Web Development</option>
+            <option value="app-dev">App Development</option>
+            <option value="devops">Devops</option>
+            <option value="ai&ml">AI & ML</option>
+            <option value="others">Other</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

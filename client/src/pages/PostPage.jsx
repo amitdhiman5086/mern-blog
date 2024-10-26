@@ -1,14 +1,17 @@
+import { Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Button, Spinner } from "flowbite-react";
-import "../App.css";
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
-const PostPage = () => {
+import PostCard from "../components/PostCard";
+import ScrollToTop from "../components/ScrollToTop";
+
+export default function PostPage() {
   const { postSlug } = useParams();
-  const [post, setPost] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [post, setPost] = useState(null);
+  const [recentPosts, setRecentPosts] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -27,21 +30,49 @@ const PostPage = () => {
           setError(false);
         }
       } catch (error) {
-        console.log(error);
+        setError(true);
+        setLoading(false);
       }
     };
-
     fetchPost();
   }, [postSlug]);
 
+  useEffect(() => {
+    try {
+      const fetchRecentPosts = async () => {
+        const res = await fetch(`/api/post/routes/getposts?limit=3`);
+        const data = await res.json();
+        if (res.ok) {
+          setRecentPosts(data.posts);
+        }
+      };
+      fetchRecentPosts();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <Spinner className="size-14" />
+      <div className="p-3 max-w-6xl mx-auto min-h-screen">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded-full w-3/4 mx-auto mt-10"></div>
+          <div className="h-4 bg-gray-200 rounded-full w-24 mx-auto mt-5"></div>
+          <div className="h-96 bg-gray-200 rounded-lg mt-10"></div>
+          <div className="flex justify-between mt-5">
+            <div className="h-3 bg-gray-200 rounded-full w-1/4"></div>
+            <div className="h-3 bg-gray-200 rounded-full w-1/4"></div>
+          </div>
+          <div className="h-4 bg-gray-200 rounded-full w-full mt-5"></div>
+          <div className="h-4 bg-gray-200 rounded-full w-5/6 mt-2"></div>
+          <div className="h-4 bg-gray-200 rounded-full w-4/6 mt-2"></div>
+        </div>
       </div>
     );
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
+      <ScrollToTop />
+
       <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
         {post && post.title}
       </h1>
@@ -57,6 +88,7 @@ const PostPage = () => {
         src={post && post.image}
         alt={post && post.title}
         className="mt-10 p-3 max-h-[600px] w-full object-cover"
+       
       />
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
@@ -71,9 +103,15 @@ const PostPage = () => {
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
       </div>
-      <CommentSection postId={post?._id}/>
+      <CommentSection postId={post._id} />
+
+      <div className="flex flex-col justify-center items-center mb-5">
+        <h1 className="text-xl mt-5">Recent articles</h1>
+        <div className="grid w-full mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-5 mt-5 justify-center">
+          {recentPosts &&
+            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+        </div>
+      </div>
     </main>
   );
-};
-
-export default PostPage;
+}

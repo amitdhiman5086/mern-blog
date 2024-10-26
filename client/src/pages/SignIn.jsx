@@ -101,7 +101,7 @@ const SignIn = () => {
             magni?
           </p>
         </div>
-        <div>
+        <div className="w-full">
           {/* right */}
           <form
             onSubmit={handleSubmit}

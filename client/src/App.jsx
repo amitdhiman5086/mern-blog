@@ -14,28 +14,37 @@ import PageNotFound from "./components/PageNotFound";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
+import SearchPage from "./pages/SearchPage";
+
 
 const Layout = () => {
   return (
-    <div className="flex flex-col h-screen w-screen box-border overflow-x-hidden">
-      <header className="sticky bg-white shadow-lg top-0 z-10">
-      <ScrollToTop />
-        <Header />
-      </header>
-      <main className="flex-grow my-6 z-0">
-        {/* Use flex-grow to ensure the Outlet takes the available space */}
-        <Outlet />
-      </main>
-      <footer className="z-10">
-        <Footer />
-      </footer>
-    </div>
+    <>
+      <div className="flex flex-col box-border ">
+        <header className="sticky  shadow-lg top-0 z-10">
+          <ScrollToTop />
+          <Header />
+        </header>
+        <main className="flex-grow my-6 z-0 ">
+          {/* Use flex-grow to ensure the Outlet takes the available space */}
+          <Outlet />
+        </main>
+        <footer className="z-10">
+          <Footer />
+        </footer>
+      </div>
+    </>
   );
 };
 
 const router = createBrowserRouter([
   {
-    element: <Layout />,
+    element: (
+      <>
+        {" "}
+        <Layout />
+      </>
+    ),
     children: [
       {
         path: "*",
@@ -64,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/post/:postSlug",
         element: <PostPage />,
+      },
+      {
+        path: "/search",
+        element: <SearchPage />,
       },
       {
         element: <ProtectedRoute />,
