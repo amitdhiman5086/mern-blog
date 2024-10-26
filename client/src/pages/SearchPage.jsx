@@ -21,9 +21,9 @@ export default function SearchPage() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    const sortFromUrl = urlParams.get("sort");
-    const categoryFromUrl = urlParams.get("category");
+    const searchTermFromUrl = urlParams.get("searchTerm")||'';
+    const sortFromUrl = urlParams.get("sort")||"";
+    const categoryFromUrl = urlParams.get("category")||'';
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
@@ -101,12 +101,12 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
+    <div className="flex flex-col lg:flex-row">
+      <div className="p-7 border-b lg:border-r lg:min-h-screen border-gray-500">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-          <div className="flex   items-center gap-2">
+          <div className="flex justify-between text-sm  items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
-              Search Term:
+              Search Term :
             </label>
             <TextInput
               placeholder="Search..."
@@ -116,19 +116,20 @@ export default function SearchPage() {
               onChange={handleChange}
             />
           </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold">Sort:</label>
+          <div className="flex justify-between items-center gap-2">
+            <label className="font-semibold text-sm  ">Sort :</label>
             <Select onChange={handleChange} value={sidebarData.sort} id="sort">
               <option value="desc">Latest</option>
               <option value="asc">Oldest</option>
             </Select>
           </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold">Category:</label>
+          <div className="flex justify-between  items-center gap-2">
+            <label className="font-semibold line-clamp-1 text-sm">Category :</label>
             <Select
               onChange={handleChange}
               value={sidebarData.category}
               id="category"
+              
             >
               <option value="uncategorized">Technical</option>
               <option value="web-dev">Web Development</option>
@@ -151,12 +152,26 @@ export default function SearchPage() {
           {!loading && posts.length === 0 && (
             <p className="text-xl text-gray-500">No posts found.</p>
           )}
-          {loading && <p className="text-xl text-gray-500">Loading...</p>}
-<div className=" grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-{!loading &&
-            posts &&
-            posts.map((post) => <PostCard  key={post._id} post={post} />)}
-</div>
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
+            {loading
+              ? // Shimmer UI for loading state
+                Array(6)
+                  .fill()
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-200 rounded-lg overflow-hidden shadow-md animate-pulse"
+                    >
+                      <div className="h-48 bg-gray-300"></div>
+                      <div className="p-4">
+                        <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                        <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  ))
+              : posts &&
+                posts.map((post) => <PostCard key={post._id} post={post} />)}
+          </div>
           {showMore && (
             <button
               onClick={handleShowMore}

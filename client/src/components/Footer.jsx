@@ -1,4 +1,4 @@
-import React from "react";
+
 import { CiFacebook } from "react-icons/ci";
 import {
   FaDiscord,
@@ -19,7 +19,7 @@ const Footer = () => {
               className="self-center whitespace-nowrap text-sm md:text-xl font-semibold dark:text-white"
             >
               <span className="px-2 py-1 bg-gradient-to-r from-violet-400 to-pink-300 rounded-lg text-white ">
-                Zoo's
+                Zoo&apos;s
               </span>
               Blog
             </Link>
@@ -29,7 +29,7 @@ const Footer = () => {
             <div className=" flex-auto w-32">
               {/* 1 */}
 
-              <Link className="text-gray-400  font-semibold text-2xl">
+              <Link to={'/about'} className="text-gray-400  font-semibold text-2xl">
                 About Us
               </Link>
               <ul className="font-light">

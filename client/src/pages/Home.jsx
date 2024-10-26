@@ -16,18 +16,41 @@ export default function Home() {
   }, []);
   return (
     <div>
-      <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto '>
-        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to my Blog</h1>
-        <p className='text-gray-500 text-xs sm:text-sm'>
-          Here you'll find a variety of articles and tutorials on topics such as
-          web development, software engineering, and programming languages.
+      <div className='flex flex-col gap-8 py-16 px-4 max-w-6xl mx-auto'>
+        <h1 className='text-4xl md:text-6xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text'>
+          Welcome to Zoo's Coding Blog
+        </h1>
+        <p className='text-gray-600 dark:text-gray-300 text-sm sm:text-lg text-center max-w-3xl mx-auto leading-relaxed'>
+          Embark on a wild coding adventure! Explore our digital jungle of articles, tutorials, and insights on web development, software engineering, and cutting-edge programming languages. From taming complex algorithms to crafting stunning user interfaces, we've got your tech safari covered.
         </p>
-        <Link
-          to='/search'
-          className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'
-        >
-          View all posts
-        </Link>
+        <div className='flex flex-wrap justify-center gap-4'>
+          <Link
+            to='/search'
+            className='px-6 py-3 text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-blue-500 to-teal-500 rounded-full hover:from-blue-600 hover:to-teal-600 transition duration-300 shadow-lg hover:shadow-xl'
+          >
+            Explore All Posts
+          </Link>
+          <Link
+            to='/project'
+            className='px-6 py-3 text-sm sm:text-base font-semibold text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition duration-300'
+          >
+            View Projects
+          </Link>
+        </div>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-8'>
+          <div className='bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 p-6 rounded-lg shadow-md'>
+            <h3 className='text-xl font-semibold text-purple-700 dark:text-purple-300 mb-2'>Learn</h3>
+            <p className='text-gray-700 dark:text-gray-300'>Dive into our comprehensive tutorials and articles.</p>
+          </div>
+          <div className='bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 p-6 rounded-lg shadow-md'>
+            <h3 className='text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2'>Create</h3>
+            <p className='text-gray-700 dark:text-gray-300'>Build exciting projects with our step-by-step guides.</p>
+          </div>
+          <div className='bg-gradient-to-br from-green-100 to-teal-100 dark:from-green-900 dark:to-teal-900 p-6 rounded-lg shadow-md'>
+            <h3 className='text-xl font-semibold text-green-700 dark:text-green-300 mb-2'>Innovate</h3>
+            <p className='text-gray-700 dark:text-gray-300'>Stay ahead with insights on emerging tech trends.</p>
+          </div>
+        </div>
       </div>
       <div className='p-3 md:w-[50%] w-[80%] mx-auto bg-amber-100 dark:bg-slate-700'>
         <CallToAction />

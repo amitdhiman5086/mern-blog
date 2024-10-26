@@ -1,7 +1,7 @@
-import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
+import { Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSearch, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ export default function Header() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch("/api/user/signout", {
+      const res = await fetch("/api/user/routes/signout", {
         method: "POST",
       });
       const data = await res.json();
@@ -70,10 +70,16 @@ export default function Header() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
+      <Link
+        to={"/search"}
+        className="px-2 py-2 inline sm:hidden bg-white rounded-lg dark:bg-gray-700 text-white "
+      >
+        <FaSearch />
+      </Link>
 
-      <div className="flex items-center gap-2 md:order-2">
+      <div className="flex items-center justify-center gap-2 md:order-2">
         <Button
-          className="w-12 h-10  sm:inline"
+          className="w-14 text-center items-center h-10  sm:inline"
           color="gray"
           pill
           onClick={() => dispatch(toggleTheme())}
@@ -119,8 +125,8 @@ export default function Header() {
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
-          <Link to="/projects">Projects</Link>
+        <Navbar.Link active={path === "/project"} as={"div"}>
+          <Link to="/project">Projects</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
