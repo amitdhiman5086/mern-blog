@@ -71,7 +71,7 @@ const OAuth = () => {
     <div>
       <button
         onClick={hadleGoogleOAuth}
-        className="w-full  flex text-center justify-center  gap-4  border border-double  py-2 active:scale-90 "
+        className="w-full   flex text-center justify-center  gap-4  border border-double  py-2 active:scale-90 "
       >
         <FaGoogle className="size-5" />
         SignIn With Google

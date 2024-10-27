@@ -1,4 +1,4 @@
-import { CiFacebook, CiInstagram } from "react-icons/ci";
+import {  CiInstagram } from "react-icons/ci";
 import { FaDiscord, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
 

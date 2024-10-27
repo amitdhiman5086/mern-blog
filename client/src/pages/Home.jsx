@@ -17,14 +17,14 @@ export default function Home() {
   return (
     <div>
       <div className="flex flex-col gap-8 py-16 px-4 max-w-6xl mx-auto">
-        <h1 className="text-4xl md:text-6xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text">
-          Welcome to Zoo's Coding Blog
+        <h1 className="text-4xl md:text-6xl pb-3 font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text">
+          Welcome to Zoo&apos;s Coding Blog
         </h1>
         <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-lg text-center max-w-3xl mx-auto leading-relaxed">
           Embark on a wild coding adventure! Explore our digital jungle of
           articles, tutorials, and insights on web development, software
           engineering, and cutting-edge programming languages. From taming
-          complex algorithms to crafting stunning user interfaces, we've got
+          complex algorithms to crafting stunning user interfaces, we&apos;ve got
           your tech safari covered.
         </p>
         <div className="flex flex-wrap justify-center gap-4">

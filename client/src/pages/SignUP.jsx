@@ -95,15 +95,16 @@ const SignUP = () => {
             className="self-center whitespace-nowrap text-sm md:text-3xl font-semibold dark:text-white"
           >
             <span className="px-2 py-1 bg-gradient-to-r from-violet-400 to-pink-300 rounded-lg text-white ">
-              Zoo's
+            Zoo&apos;s
             </span>
             Blog
           </Link>
-          <p className="text-sm mt-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. A quam
-            magnam aspernatur ad eligendi qui, iure voluptatem dolore blanditiis
-            eaque aliquid sapiente vitae ullam illo maiores ut? Dicta, provident
-            magni?
+          <p className="text-sm mt-5 mr-2">
+            Welcome to Zoo&apos;s Coding Blog! Sign in to access a world of
+            programming knowledge, from beginner tutorials to advanced coding
+            techniques. Join our community of developers, share your insights,
+            and embark on an exciting journey through the digital jungle of
+            web development and software engineering.
           </p>
         </div>
         <div className="w-full ">
@@ -161,9 +162,12 @@ const SignUP = () => {
               >
                 {isLoading ? "Loading.." : "SignUP"}
               </button>
-              <OAuth />
+        
             </div>
           </form>
+          <div className="mt-4">
+          <OAuth  />
+          </div>
           <div className="flex gap-3 py-3">
             <span>Have an Account ?</span>
             <Link to={"/signin"} className="text-blue-500 cursor-pointer">

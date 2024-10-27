@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Modal, Spinner, Table, TableCell } from "flowbite-react";
 import {
-  FaAlignRight,
+
   FaCheck,
   FaExclamationCircle,
   FaTimes,
@@ -80,10 +80,10 @@ const DashUser = () => {
     }
   };
   return (
-    <div className="table-auto max-w-full overflow-x-scroll scrollbar scrollbar-track-slate-300 scrollbar-thumb-slate-100    dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
+    <div className="table-auto w-full  overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
       {currentUser.isAdmin && user.length > 0 ? (
         <>
-          <Table hoverable className="shadow-md w-[85%] mx-auto">
+          <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date Updated</Table.HeadCell>
               <Table.HeadCell>User Image</Table.HeadCell>
