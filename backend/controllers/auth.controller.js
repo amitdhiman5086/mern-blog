@@ -42,6 +42,9 @@ export const signUp = async (req, res, next) => {
       .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+        sameSite: "strict", // Protect against CSRF
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       })
       .json(rest);
   } catch (error) {
@@ -80,6 +83,9 @@ export const signin = async (req, res, next) => {
       .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+        sameSite: "strict", // Protect against CSRF
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       })
       .json(rest);
   } catch (error) {
@@ -143,6 +149,9 @@ export const google = async (req, res, next) => {
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
+          secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+          sameSite: "strict", // Protect against CSRF
+          maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         })
         .json(rest);
     } else {
@@ -167,6 +176,9 @@ export const google = async (req, res, next) => {
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
+          secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+          sameSite: "strict", // Protect against CSRF
+          maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         })
         .json(rest);
     }
