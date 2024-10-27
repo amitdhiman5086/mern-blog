@@ -149,7 +149,7 @@ const CreatePostPage = () => {
           <img
             src={formData.image}
             alt="upload"
-            className="object-cover w-full h-80"
+            className="object-contain w-full h-80"
           />
         )}
         <ReactQuill
