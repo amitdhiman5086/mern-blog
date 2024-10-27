@@ -1,10 +1,5 @@
-
-import { CiFacebook } from "react-icons/ci";
-import {
-  FaDiscord,
-  FaGithub,
-  FaLinkedin,
-} from "react-icons/fa";
+import { CiFacebook, CiInstagram } from "react-icons/ci";
+import { FaDiscord, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -29,12 +24,22 @@ const Footer = () => {
             <div className=" flex-auto w-32">
               {/* 1 */}
 
-              <Link to={'/about'} className="text-gray-400  font-semibold text-2xl">
+              <Link
+                to={"/about"}
+                className="text-gray-400  font-semibold text-2xl"
+              >
                 About Us
               </Link>
               <ul className="font-light">
-                <li>Resume</li>
-                <li>Live Link</li>
+                <li>
+                  <Link
+                    to="https://drive.google.com/file/d/106P-pMOIfpfmrwwzATHr5TmsfAK0q1RZ/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Resume
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="flex-auto w-32">
@@ -43,8 +48,16 @@ const Footer = () => {
                 Follow Us
               </h4>
               <ul className="font-light ">
-                <li>Git Hub</li>
-                <li>Discord</li>
+                <li>
+                  <Link
+                    to="https://github.com/amitdhiman5086"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </Link>
+                </li>
+                <li><Link to="https://discord.com/users/amitdhiman123" target="_blank" rel="noopener noreferrer">Discord</Link></li>
               </ul>
             </div>
             <div className="flex-auto w-32">
@@ -68,10 +81,18 @@ const Footer = () => {
               </p>
             </div>
             <div className="flex gap-2">
-              <CiFacebook className="size-9" />
-              <FaGithub className="size-9" />
-              <FaDiscord className="size-9" />
-              <FaLinkedin className="size-9" />
+              <Link to="https://www.instagram.com/amit.dhiman.04/" target="_blank" rel="noopener noreferrer">
+                <CiInstagram className="size-9" />
+              </Link>
+              <Link to="https://github.com/amitdhiman5086" target="_blank" rel="noopener noreferrer">
+                <FaGithub className="size-9" />
+              </Link>
+              <Link to="https://discord.com/users/amitdhiman123" target="_blank" rel="noopener noreferrer">
+                <FaDiscord className="size-9" />
+              </Link>
+              <Link to="https://www.linkedin.com/in/amitdhiman2004/" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin className="size-9" />
+              </Link>
             </div>
           </div>
         </div>
