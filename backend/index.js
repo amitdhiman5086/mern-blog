@@ -25,7 +25,7 @@ const __dirname = path.resolve();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow this specific origin
+    origin: "http://16.171.170.206:80", // Allow this specific origin
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
     credentials: true, // Allow credentials (cookies, authorization headers)
