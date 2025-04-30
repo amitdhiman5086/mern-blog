@@ -1,6 +1,4 @@
-// keepAliveJob.js
 import { CronJob } from 'cron';
-import axios from 'axios';
 
 const url = 'https://zoo-blog.onrender.com';
 
@@ -8,8 +6,9 @@ export function createKeepAliveJob() {
     const job = new CronJob('*/10 * * * *', async () => {
         try {
             console.log('Hitting the URL:', url);
-            const response = await axios.get(url);
-            console.log('Response:', response.data);
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log('Response:', data);
         } catch (error) {
             console.error('Error hitting the URL:', error.message);
         }
