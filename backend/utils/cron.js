@@ -6,9 +6,7 @@ export function createKeepAliveJob() {
     const job = new CronJob('*/10 * * * *', async () => {
         try {
             console.log('Hitting the URL:', url);
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log('Response:', data);
+            await fetch(url);
         } catch (error) {
             console.error('Error hitting the URL:', error.message);
         }
