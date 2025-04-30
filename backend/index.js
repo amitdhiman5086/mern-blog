@@ -8,7 +8,7 @@ import postRouter from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.router.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-import { createKeepAliveJob } from "./utils/cron.js";
+import job from "./utils/cron.js";
 dotenv.config();
 
 mongoose
@@ -21,7 +21,7 @@ mongoose
   });
 
 const app = express();
-createKeepAliveJob().start(); 
+job.start();
 
 const __dirname = path.resolve();
 

@@ -1,17 +1,20 @@
-import { CronJob } from 'cron';
+import cron from "cron";
+import https from "https";
 
-const url = 'https://zoo-blog.onrender.com';
+const URL = "https://zoo-blog.onrender.com/";
 
-export function createKeepAliveJob() {
-    const job = new CronJob('*/10 * * * *', async () => {
-        try {
-            console.log('Hitting the URL:', url);
-            await fetch(url);
-        } catch (error) {
-            console.error('Error hitting the URL:', error.message);
-        }
-    });
+const job = new cron.CronJob("*/1 * * * *", function () {
+	https
+		.get(URL, (res) => {
+			if (res.statusCode === 200) {
+				console.log("GET request sent successfully");
+			} else {
+				console.log("GET request failed", res.statusCode);
+			}
+		})
+		.on("error", (e) => {
+			console.error("Error while sending request", e);
+		});
+});
 
-    console.log('Cron job created to hit the URL every 10 minutes (not started yet).');
-    return job;
-}
+export default job;
